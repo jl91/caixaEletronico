@@ -2,10 +2,15 @@
 #include "functions.c"
 
 
-int main (){
-	char* header = getHeader();
+int init(){
+	printHeader();
+	printMenu();
+	chooseMenuOption(0);
+	return 0;
+}
 
-	printf("%s", header);
+int main (){
+	init();
 
 	return 0;
 }
