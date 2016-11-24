@@ -24,7 +24,7 @@ char* getHeader() {
 	return header;
 }
 
-void loadMenu() {
+char* loadMenu() {
 	char* menu = "";
 
 	menu = concat(menu, "*************************************** \n");
@@ -37,17 +37,16 @@ void loadMenu() {
 	menu = concat(menu, "3 – Estatística \n");
 	menu = concat(menu, "9 – Fim \n");
 
+	return menu;
 }
 
 void printHeader() {
 	char* header = getHeader();
-
 	printf("%s", header);
 }
 
 void printMenu() {
 	char* menu = loadMenu();
-
 	printf("%s", menu);
 }
 
@@ -58,6 +57,7 @@ void printInvalidOption() {
 }
 
 int isValidMenuOption(int option) {
+
 	if (option < 0 || option > 9 || (option > 3 && option < 9)) {
 		return FALSE;
 	}
@@ -66,14 +66,18 @@ int isValidMenuOption(int option) {
 }
 
 int chooseMenuOption(int option) {
-	scanf("%d", &option);
-	if (isValidMenuOption(option) == FALSE) {
+	char buf[50];
+	fgets(buf, sizeof buf, stdin);
+	int end = 0;
+	if (sscanf(buf, "%d %n", &option, &end) != 1||
+	buf[end] != '\0' ||
+	isValidMenuOption(option) == FALSE
+	) {
 		printInvalidOption();
 		printMenu();
 		chooseMenuOption(option);
 	}
 
 	return option;
-
 }
 
