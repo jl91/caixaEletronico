@@ -4,6 +4,7 @@
 
 int main (){
 	char* header = getHeader();
+
 	printf("%s", header);
 
 	return 0;
