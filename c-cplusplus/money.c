@@ -8,7 +8,16 @@ void loadATMWithMoney();
 void drawSomeMoney();
 void statistics();
 void printDrawMoneyMessage();
-int isValidValueToDrawMoney();
+int isValidValueToDrawMoney(int value);
+int isValidBank(int bank);
+void chooseBestOptionToDrawMoney(int value);
+char * getBankName(int bankCode);
+
+//CONSTANTS
+#define BANK_BANCO_DO_BRASIL 1
+#define BANK_SANTANDER 2
+#define BANK_ITAU 3
+#define BANK_CAIXA 4
 
 //Implementations
 int twoReaisNotes = 0;
@@ -20,6 +29,7 @@ int oneHundredReaisNotes = 0;
 int limit = 0;
 
 int currentValue = 0;
+int currentBank = 0;
 
 void printLoadingATMMoneyMessage() {
 	printf("%s", " \n $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ \n");
@@ -83,6 +93,86 @@ int isValidValueToDrawMoney(int value) {
 	return TRUE;
 }
 
+int isValidBank(int bank) {
+
+	if (bank < BANK_BANCO_DO_BRASIL || bank > BANK_CAIXA) {
+		printf("Banco %d Inválido!", bank);
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+void chooseBestOptionToDrawMoney(int value) {
+
+	int currentValue = value;
+
+	while (currentValue > 0) {
+
+		if (currentValue >= 100 && oneHundredReaisNotes > 0) {
+			oneHundredReaisNotes--;
+			currentValue -= 100;
+			limit -= 100;
+			continue;
+		}
+
+		if (currentValue >= 50 && fiftyReaisNotes > 0) {
+			fiftyReaisNotes--;
+			currentValue -= 50;
+			limit -= 50;
+			continue;
+		}
+
+		if (currentValue >= 20 && twentyReaisNotes > 0) {
+			twentyReaisNotes--;
+			currentValue -= 20;
+			limit -= 20;
+			continue;
+		}
+
+		if (currentValue >= 10 && tenReaisNotes > 0) {
+			tenReaisNotes--;
+			currentValue -= 10;
+			limit -= 10;
+			continue;
+		}
+
+		if (currentValue >= 5 && fiveReaisNotes > 0) {
+			fiveReaisNotes--;
+			currentValue -= 5;
+			limit -= 5;
+			continue;
+		}
+
+		if (currentValue >= 2 && twoReaisNotes > 0) {
+			twoReaisNotes--;
+			currentValue -= 2;
+			limit -= 2;
+			continue;
+		}
+	}
+}
+
+char * getBankName(int bankCode) {
+	switch (bankCode) {
+
+	case BANK_BANCO_DO_BRASIL:
+		return "Banco do Brasil";
+
+	case BANK_SANTANDER:
+		return "SANTANDER";
+
+	case BANK_ITAU:
+		return "ITAU";
+
+	case BANK_CAIXA:
+		return "CAIXA";
+
+	default:
+		return "Banco não encontrado";
+	}
+}
+
 void drawSomeMoney() {
 	printDrawMoneyMessage();
 
@@ -93,6 +183,14 @@ void drawSomeMoney() {
 			|| isValidValueToDrawMoney(currentValue) == FALSE) {
 		drawSomeMoney();
 	}
+
+	if (sscanf(buf, "%d %n", &currentBank, &end) != 1 || buf[end] != '\0'
+			|| isValidBank(currentBank) == FALSE) {
+		drawSomeMoney();
+	}
+
+	chooseBestOptionToDrawMoney(currentValue);
+
 }
 
 void statistics() {
