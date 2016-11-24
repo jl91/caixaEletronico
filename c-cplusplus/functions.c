@@ -24,7 +24,7 @@ char* getHeader() {
 	return header;
 }
 
-char* loadMenu() {
+void loadMenu() {
 	char* menu = "";
 
 	menu = concat(menu, "*************************************** \n");
