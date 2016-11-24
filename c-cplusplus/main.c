@@ -1,7 +1,10 @@
+#include <stdio.h>
 #include "functions.c"
 
 
-int void main (){
+int main (){
 	char* header = getHeader();
 	printf("%s", header);
+
+	return 0;
 }
