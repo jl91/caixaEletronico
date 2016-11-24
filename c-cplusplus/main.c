@@ -9,12 +9,23 @@
 #define END 9
 
 int option = 0;
+//Defining functions Prototype
+void goBackToOptions();
+void chooseProcess(int option);
+
+//Implementations
+void goBackToOptions() {
+	printMenu();
+	option = chooseMenuOption(option);
+	chooseProcess(option);
+}
 
 void chooseProcess(int option) {
 	switch (option) {
 
 	case LOAD_ATM_WITH_MONEY:
 		loadATMWithMoney();
+		goBackToOptions();
 		break;
 
 	case DRAW_SOME_MONEY:
@@ -34,9 +45,7 @@ void chooseProcess(int option) {
 
 int main() {
 	printHeader();
-	printMenu();
-	option = chooseMenuOption(option);
-	chooseProcess(option);
+	goBackToOptions();
 
 	return 0;
 }
